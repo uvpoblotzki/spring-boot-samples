@@ -4,8 +4,8 @@ import org.junit.Test;
 
 import java.util.Random;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static io.github.uvpoblotzki.boot.web.Game.Result;
+import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -16,14 +16,14 @@ public class ServletGameTests {
   public void correctGuess() {
     final int goal = 42;
     ServletGame game = new ServletGame(goal);
-    assertTrue(game.correctGuess(goal));
+    assertEquals(Result.Match, game.checkGuess(goal));
   }
 
   @Test
   public void incorrectGuess() {
     final int goal = 42;
     ServletGame game = new ServletGame(goal);
-    assertFalse(game.correctGuess(21));
+    assertNotEquals(Result.Match, game.checkGuess(21));
   }
 
   @Test
@@ -36,6 +36,6 @@ public class ServletGameTests {
     game.setRandom(random);
     game.restart();
 
-    assertTrue(game.correctGuess(newGoal));
+    assertEquals(Result.Match, game.checkGuess(newGoal));
   }
 }

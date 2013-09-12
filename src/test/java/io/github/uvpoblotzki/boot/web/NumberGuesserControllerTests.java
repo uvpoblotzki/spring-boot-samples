@@ -12,7 +12,7 @@ public class NumberGuesserControllerTests {
     NumberGuesserController controller = new NumberGuesserController();
     Game game = mock(Game.class);
     when(game.currentGame()).thenReturn(game);
-    when(game.correctGuess(anyInt())).thenReturn(true);
+    when(game.checkGuess(anyInt())).thenReturn(Game.Result.Match);
     controller.setGame(game);
 
     assertTrue(controller.match(42).isMatch());

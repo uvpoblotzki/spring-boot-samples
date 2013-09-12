@@ -2,6 +2,10 @@ package io.github.uvpoblotzki.boot.web;
 
 public interface Game {
 
+  public static enum Result {
+    Lower, Higher, Match
+  }
+
   /**
    * @return The current ongoing Game
    */
@@ -10,9 +14,10 @@ public interface Game {
   /**
    * Checks if guess matches.
    * @param guess players guess
-   * @return {@code true} if guess matches
+   * @return {@code Result#Match} if guess matches, {@code Result#Lower}
+   * if guess is to high or {@code Result#Higher} if to low.
    */
-  boolean correctGuess(int guess);
+  Result checkGuess(int guess);
 
   /**
    * Restarts the game

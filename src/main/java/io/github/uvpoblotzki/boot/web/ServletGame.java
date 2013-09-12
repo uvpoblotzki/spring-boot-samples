@@ -22,8 +22,11 @@ public class ServletGame implements Game {
   }
 
   @Override
-  public boolean correctGuess(int guess) {
-    return getGoal() == guess;
+  public Result checkGuess(int guess) {
+    Result result = Result.Match;
+    if (this.goal > guess) result = Result.Higher;
+    if (this.goal < guess) result = Result.Lower;
+    return result;
   }
 
   @Override
