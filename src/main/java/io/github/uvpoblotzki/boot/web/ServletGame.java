@@ -8,7 +8,7 @@ public class ServletGame implements Game {
   private static Random RANDOM = new Random();
 
   public ServletGame() {
-    this.goal = RANDOM.nextInt(10);
+    randomGoal();
   }
 
   public ServletGame(int goal) {
@@ -26,11 +26,24 @@ public class ServletGame implements Game {
     return getGoal() == guess;
   }
 
+  @Override
+  public void restart() {
+    randomGoal();
+  }
+
+  private void randomGoal() {
+    this.goal = RANDOM.nextInt(10);
+  }
+
   public int getGoal() {
     return goal;
   }
 
   public void setGoal(int goal) {
     this.goal = goal;
+  }
+
+  protected void setRandom(Random random) {
+    ServletGame.RANDOM = random;
   }
 }

@@ -14,4 +14,9 @@ public interface Game {
    */
   boolean correctGuess(int guess);
 
+  /**
+   * Restarts the game
+   */
+  void restart();
+
 }
