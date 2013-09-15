@@ -1,27 +1,72 @@
 package io.github.uvpoblotzki.boot.web;
 
-public interface Game {
+import java.util.Random;
+
+public class Game {
 
   public static enum Result {
     Lower, Higher, Match
   }
 
-  /**
-   * @return The current ongoing Game
-   */
-  Game currentGame();
+  private int goal;
+  private static Random RANDOM = new Random();
+
+  public Game() {
+    randomGoal();
+  }
+
+  public Game(int goal) {
+    this.goal = goal;
+  }
 
   /**
-   * Checks if guess matches.
-   * @param guess players guess
-   * @return {@code Result#Match} if guess matches, {@code Result#Lower}
-   * if guess is to high or {@code Result#Higher} if to low.
+   * Decodes the game as two hex integers. Both integers are XORed to decode the
+   * Game goal.
+   *
+   * @param seedString seed for en- and decoding
+   * @param encodedGuessString encoded goal
+   * @return Decoded Game
    */
-  Result checkGuess(int guess);
+  public static Game decode(String seedString, String encodedGuessString) {
+    int seed = Integer.parseInt(seedString, 16);
+    int encodedGuess = Integer.parseInt(encodedGuessString, 16);
+
+    return new Game(seed ^ encodedGuess);
+  }
 
   /**
-   * Restarts the game
+   * Simply encode the game goal using XOR and a seed value
+   * @param seed Seed value
+   * @return Encoded Game goal
    */
-  void restart();
+  public int encode(int seed) {
+    return getGoal() ^ seed;
+  }
 
+  public Result checkGuess(int guess) {
+    Result result = Result.Match;
+    if (this.goal > guess) result = Result.Higher;
+    if (this.goal < guess) result = Result.Lower;
+    return result;
+  }
+
+  public void restart() {
+    randomGoal();
+  }
+
+  private void randomGoal() {
+    this.goal = RANDOM.nextInt(10);
+  }
+
+  public int getGoal() {
+    return goal;
+  }
+
+  public void setGoal(int goal) {
+    this.goal = goal;
+  }
+
+  protected void setRandom(Random random) {
+    Game.RANDOM = random;
+  }
 }

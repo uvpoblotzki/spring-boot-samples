@@ -11,7 +11,7 @@ public class NumberGuesserApp {
 
   @Bean
   public Game getGame() {
-    return new ServletGame();
+    return new Game();
   }
 
   public static void main(String[] args) {
