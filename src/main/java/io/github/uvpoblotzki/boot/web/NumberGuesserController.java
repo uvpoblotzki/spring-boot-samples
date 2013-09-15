@@ -13,13 +13,34 @@ public class NumberGuesserController {
   @Autowired
   private Game game;
 
-  @RequestMapping(method = RequestMethod.POST, value = "/{seed}-{encodedGoal}")
+  /**
+   * Creates a new Game
+   * @return The new Game is encoded in the redirect URL
+   */
+  @RequestMapping(method = RequestMethod.POST)
+  public String create() {
+    Game game = new Game();
+    return "redirect:" + game.encode();
+  }
+
+  @RequestMapping(method = RequestMethod.GET)
+  public String index() {
+    return "game";
+  }
+
+  /**
+   * Make a guess for the Game
+   *
+   * @param encodedGame Encoded Game {@link #create()}
+   * @param guess Your guess
+   * @return Hit if your guess was correct
+   */
+  @RequestMapping("/{encodedGame}/guess")
   @ResponseBody
   public Hint match(
-      @PathVariable("seed") String seed,
-      @PathVariable("encodedGoal") String encodedGoal,
+      @PathVariable("encodedGame") String encodedGame,
       @RequestParam(required = true) int guess) {
-    Result result = Game.decode(seed, encodedGoal).checkGuess(guess);
+    Result result = Game.decode(encodedGame).checkGuess(guess);
     boolean isCorrenctMatch = (result == Result.Match);
     String hint = "Super, your guess is correct";
     if (result == Result.Lower) hint = "Too high!";

@@ -23,24 +23,28 @@ public class Game {
    * Decodes the game as two hex integers. Both integers are XORed to decode the
    * Game goal.
    *
-   * @param seedString seed for en- and decoding
-   * @param encodedGuessString encoded goal
+   * @param encodedGame encoded Game in the format "seed-encodedGoal"
    * @return Decoded Game
    */
-  public static Game decode(String seedString, String encodedGuessString) {
-    int seed = Integer.parseInt(seedString, 16);
-    int encodedGuess = Integer.parseInt(encodedGuessString, 16);
+  public static Game decode(String encodedGame) {
+    String[] parts = encodedGame.split("-");
+    int seed = Integer.parseInt(parts[0], 16);
+    int encodedGuess = Integer.parseInt(parts[1], 16);
 
     return new Game(seed ^ encodedGuess);
   }
 
   /**
    * Simply encode the game goal using XOR and a seed value
-   * @param seed Seed value
-   * @return Encoded Game goal
+   *
+   * @return Encoded Game goal in the form "seed-encodedGoal"
    */
-  public int encode(int seed) {
-    return getGoal() ^ seed;
+  public String encode() {
+    int seed = RANDOM.nextInt(255);
+    StringBuilder sb = new StringBuilder();
+    sb.append(Integer.toHexString(seed)).append("-").append(Integer.toHexString(getGoal()^seed));
+
+    return sb.toString();
   }
 
   public Result checkGuess(int guess) {

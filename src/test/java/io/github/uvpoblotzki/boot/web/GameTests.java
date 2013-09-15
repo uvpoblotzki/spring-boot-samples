@@ -12,17 +12,9 @@ import static org.mockito.Mockito.when;
 
 public class GameTests {
 
-
-  @Test
-  public void encodeGame() {
-    Game game = new Game(42);
-    int encodedGame = game.encode(123);
-    assertEquals(81, encodedGame);
-  }
-
   @Test
   public void decodeGame() {
-    Game game = Game.decode("7b", "2A");
+    Game game = Game.decode("7b-2A");
     assertEquals(Result.Match, game.checkGuess(81));
   }
 
