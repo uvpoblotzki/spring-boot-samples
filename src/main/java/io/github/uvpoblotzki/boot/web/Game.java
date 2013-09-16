@@ -62,12 +62,12 @@ public class Game {
     this.goal = RANDOM.nextInt(10);
   }
 
-  public int getGoal() {
-    return goal;
+  public String getGameURL() {
+    return encode();
   }
 
-  public void setGoal(int goal) {
-    this.goal = goal;
+  protected int getGoal() {
+    return goal;
   }
 
   protected void setRandom(Random random) {

@@ -15,12 +15,12 @@ public class NumberGuesserController {
 
   /**
    * Creates a new Game
-   * @return The new Game is encoded in the redirect URL
+   * @return The new Game is returned as JSON
    */
   @RequestMapping(method = RequestMethod.POST)
-  public String create() {
-    Game game = new Game();
-    return "redirect:" + game.encode();
+  @ResponseBody
+  public Game create() {
+    return new Game();
   }
 
   @RequestMapping(method = RequestMethod.GET)
